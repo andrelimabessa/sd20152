@@ -1,0 +1,5 @@
+package tar.locadora.entidades;
+
+public class Cliente extends Pessoa{
+
+}

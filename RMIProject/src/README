@@ -1,0 +1,3 @@
+rmic comum.service.GestorImpl
+ 
+start rmiregistry

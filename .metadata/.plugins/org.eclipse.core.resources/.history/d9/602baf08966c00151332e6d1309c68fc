@@ -1,0 +1,42 @@
+package locadora.service;
+
+import java.util.Collection;
+
+import locadora.dao.EstoqueFilmeStorage;
+import locadora.entidades.Estoque;
+import locadora.entidades.Filme;
+
+
+public class EstoqueService {
+	
+	private EstoqueFilmeDao estoqueFilmeStorage;
+	
+	public EstoqueService() {
+		
+		estoqueFilmeStorage = EstoqueFilmeStorage.getInstance();
+
+	}
+	
+	public Estoque adicionarNovoFilme(Filme filme, Integer quantidade){
+		
+		Estoque estoque = new Estoque();
+		
+		estoque.setFilme(filme);
+		estoque.setDisponibilidade(quantidade);
+		estoque.setQuantidade(quantidade);
+		
+		estoque = estoqueFilmeStorage.adicionarNovoFilme(estoque);
+		
+		return estoque;
+	}
+	
+	public Collection<Estoque> obterFilmes(){
+		return estoqueFilmeStorage.obterTodosFilmes();
+	}
+
+	public void exportarRegistro(){
+		
+		estoqueFilmeStorage.salvarRegistro();
+		
+	}
+}

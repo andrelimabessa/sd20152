@@ -1,0 +1,40 @@
+[FUNCIONARIO]
+1
+Jana
+Palmeiras
+1
+1
+[CLIENTE]
+16
+Marcia
+Rua leste
+[CLIENTE]
+16
+Marcia
+Rua leste
+[FUNCIONARIO]
+1
+Jana
+Palmeiras
+1
+1
+[CLIENTE]
+16
+Marcia
+Rua leste
+[FUNCIONARIO]
+1
+Jana
+Palmeiras
+1
+1
+[CLIENTE]
+16
+Marcia
+Rua leste
+[FUNCIONARIO]
+1
+Jana
+Palmeiras
+1
+1

@@ -1,0 +1,16 @@
+package tar.locadora.apresentacao;
+
+public class Constantes {
+
+	public final static String[] LABELS_TABELA_CLIENTE = new String[] {
+			"Identificação", "Nome", "Endereço" };
+
+	public final static String[] LABELS_TABELA_FUNCIONARIO = new String[] {
+			"Identificação", "Nome", "Salário", "Carga Horária" };
+
+	public final static String[] LABELS_TABELA_FILME = new String[] {
+			"Identificação", "Nome", "Censura", "Quantidade", "Diponibilidade" };
+
+	public final static String[] LABELS_TABELA_CONSULTA = new String[] {
+			"Id da Locação", "Cliente", "Funcionário", "Filme" };
+}

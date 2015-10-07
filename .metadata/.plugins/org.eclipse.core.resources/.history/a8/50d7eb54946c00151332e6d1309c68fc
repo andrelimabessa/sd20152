@@ -1,0 +1,41 @@
+package tar.locadora.service;
+
+import java.util.Collection;
+
+import tar.locadora.entidades.Estoque;
+import tar.locadora.entidades.Filme;
+import tar.locadora.storage.EstoqueFilmeStorage;
+
+public class EstoqueService {
+	
+	private EstoqueFilmeStorage estoqueFilmeStorage;
+	
+	public EstoqueService() {
+		
+		estoqueFilmeStorage = EstoqueFilmeStorage.getInstance();
+
+	}
+	
+	public Estoque adicionarNovoFilme(Filme filme, Integer quantidade){
+		
+		Estoque estoque = new Estoque();
+		
+		estoque.setFilme(filme);
+		estoque.setDisponibilidade(quantidade);
+		estoque.setQuantidade(quantidade);
+		
+		estoque = estoqueFilmeStorage.adicionarNovoFilme(estoque);
+		
+		return estoque;
+	}
+	
+	public Collection<Estoque> obterFilmes(){
+		return estoqueFilmeStorage.obterTodosFilmes();
+	}
+
+	public void exportarRegistro(){
+		
+		estoqueFilmeStorage.salvarRegistro();
+		
+	}
+}

@@ -1,0 +1,70 @@
+package locadora.service;
+
+import java.util.Collection;
+
+import locadora.dao.EstoqueFilmeDao;
+import locadora.dao.LocacaoDao;
+import locadora.dao.PessoaDao;
+import locadora.entidades.Cliente;
+import locadora.entidades.Estoque;
+import locadora.entidades.Filme;
+import locadora.entidades.Funcionario;
+import locadora.entidades.Pessoa;
+import locadora.entidades.Registro;
+
+
+public class LocacaoService {
+	
+	private EstoqueFilmeDao estoqueFilmeDao;
+	
+	private PessoaDao pessoaDao;
+	
+	private LocacaoDao locacaoStorage;
+	
+	public LocacaoService() {
+		
+		estoqueFilmeDao = EstoqueFilmeStorage.getInstance();
+		
+		pessoaDao = PessoaStorage.getInstance();
+		
+		locacaoStorage = LocacaoStorage.getInstance();
+		
+	}
+	
+	public Registro locarFilme(Long idCliente, Long idFuncionario, Integer idFilme){
+			
+		Pessoa pessoa = pessoaDao.obterPessoaPorID(idCliente);
+		if(pessoa instanceof Funcionario){
+			pessoa = ((Funcionario)pessoa).getCliente();
+		}
+		
+		Cliente cliente = (Cliente) pessoa;
+		
+		Funcionario funcionario = (Funcionario)pessoaDao.obterPessoaPorID(idFuncionario);
+		
+		Filme filme = estoqueFilmeDao.obterFilmePorID(idFilme); 
+		
+		Registro registro = new Registro();
+		
+		registro.setCliente(cliente);
+		registro.setFilmeLocado(filme);
+		registro.setFuncionario(funcionario);
+		
+		locacaoStorage.adicionarNovoRegistro(registro);
+		
+		return registro;
+		
+	}
+	
+	public Collection<Registro> obterRegistrosLocacao(){
+		return locacaoStorage.obterRegistrosLocacao();
+	}
+
+	
+	public void exportarRegistro(){
+		
+		locacaoStorage.salvarRegistroLocacao();
+		
+	}
+
+}

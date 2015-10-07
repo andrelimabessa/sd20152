@@ -1,0 +1,57 @@
+package locadora.entidades;
+
+import locadora.entidades.enumeration.Cargo;
+
+public class Funcionario extends Pessoa {
+
+	private Integer cargaHoraria;
+	
+	private Integer salario;
+	
+	private Funcionario gerente;
+	
+	private Cargo cargo;
+
+	public Integer getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(Integer cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+
+	public Integer getSalario() {
+		return salario;
+	}
+
+	public void setSalario(Integer salario) {
+		this.salario = salario;
+	}
+
+	public Funcionario getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Funcionario gerente) {
+		this.gerente = gerente;
+	}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
+	}
+
+	public Cliente getCliente(){
+		
+		Cliente cliente = new Cliente();
+		
+		cliente.setId(this.getId());
+		cliente.setNome(this.getNome());
+		cliente.setEndereco(this.getEndereco());
+		
+		return cliente;
+	}
+}

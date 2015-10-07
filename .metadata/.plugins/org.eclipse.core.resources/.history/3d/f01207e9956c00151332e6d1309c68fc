@@ -1,0 +1,142 @@
+package locadora.dao;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import locadora.entidades.Cliente;
+import locadora.entidades.Estoque;
+import locadora.entidades.Filme;
+import locadora.entidades.Funcionario;
+import locadora.entidades.Pessoa;
+import locadora.entidades.Registro;
+import locadora.io.EscreverArquivo;
+import locadora.io.LerArquivo;
+
+
+public class LocacaoDao {
+	
+	private final String fileNameRegistrpPesso = "resource/RegistroLocacao.txt";
+	private final String tagRegistro = "[Registro]";
+	
+	private static LocacaoDao instance;
+	private Integer controlKey;
+	private Map<Integer, Registro> storageRegistro;
+	
+	public static LocacaoDao getInstance(){
+		
+		if(instance == null){
+			instance = new LocacaoDao();
+		}
+		
+		return instance;
+	}
+	
+	private LocacaoStorage() {
+		storageRegistro = new HashMap<Integer, Registro> ();
+		controlKey = 0;
+		obterRegistro();
+	}
+	
+	public Registro obterRegistroePorID(Integer key){
+		return storageRegistro.get(key);
+	}
+	
+	public Registro adicionarNovoRegistro(Registro registro){
+		
+		Long id = registro.getCliente().getId();
+		
+		registro.setId(controlKey);
+
+		storageRegistro.put(new Integer(controlKey.toString()), registro);
+			
+		controlKey++;
+		
+		return registro;
+	
+	}
+	
+	public Collection<Registro> obterRegistrosLocacao(){
+		return storageRegistro.values();
+	}
+	
+	public void salvarRegistroLocacao() {
+		
+		Collection<Registro> colecaoRegistros = storageRegistro.values();
+		EscreverArquivo escrevendoArquivo;
+		
+		try {
+			escrevendoArquivo = new EscreverArquivo(fileNameRegistrpPesso);
+			
+			for(Registro item : colecaoRegistros){
+				
+				escrevendoArquivo.inserirTag(tagRegistro);
+				
+				escrevendoArquivo.inserirParametro(item.getId().toString());
+				escrevendoArquivo.inserirParametro(item.getFilmeLocado().getId().toString());
+				escrevendoArquivo.inserirParametro(item.getCliente().getId().toString());
+				escrevendoArquivo.inserirParametro(item.getFuncionario().getId().toString());
+							
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+	}
+	
+	public void obterRegistro(){
+		
+		try {
+			
+			LerArquivo lerArquivo = new LerArquivo(fileNameRegistrpPesso);
+			Boolean continuarLendo = true;
+			String linha;
+		
+			while(continuarLendo){
+				
+				linha = lerArquivo.getLinha();
+				if(linha != null){
+					
+					if(linha.equals(tagRegistro)){
+						
+						Registro registro = new Registro();
+						
+						linha = lerArquivo.getLinha();
+						registro.setId(new Integer(linha));
+						
+						linha = lerArquivo.getLinha();
+						Filme filme = new Filme();
+						filme.setId(new Integer(linha));
+						registro.setFilmeLocado(filme);
+						
+						linha = lerArquivo.getLinha();
+						Cliente cliente = new Cliente();
+						cliente.setId(new Long(linha));
+						registro.setCliente(cliente);
+						
+						linha = lerArquivo.getLinha();
+						Funcionario funcionario = new Funcionario();
+						funcionario.setId(new Long(linha));
+						registro.setFuncionario(funcionario);
+						
+						storageRegistro.put(registro.getId(), registro);
+					}
+					
+				}else{
+					
+					continuarLendo = false;
+				}
+			}
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}
